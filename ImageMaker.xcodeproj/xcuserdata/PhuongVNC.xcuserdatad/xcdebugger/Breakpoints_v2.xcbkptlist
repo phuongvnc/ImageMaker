@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageMaker/ViewController.swift"
+            timestampString = "497269218.495897"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "didSelectGenerateCustomSize(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageMaker/Classes/Controllers/RenderImageViewController/RenderImageViewController.swift"
+            timestampString = "499791847.842404"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "tableView(_:viewFor:row:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageMaker/Classes/Controllers/RenderImageViewController/RenderImageViewController.swift"
+            timestampString = "497431281.321405"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "didSelectScaleType(sender:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ImageMaker.RenderImageViewController.(didSelectScaleType in _A7D3F0E1DBD470B7181D2E6C69B7759F) (sender : __ObjC.NSPopUpButton) -&gt; ()"
+                  moduleName = "ImageMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/SA/Documents/Data/Product/ImageMaker/ImageMaker/ImageMaker/Classes/Controllers/RenderImageViewController/RenderImageViewController.swift"
+                  timestampString = "497422000.652163"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "169">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ImageMaker.RenderImageViewController.(didSelectScaleType in _A7D3F0E1DBD470B7181D2E6C69B7759F) (sender : __ObjC.NSPopUpButton) -&gt; ()"
+                  moduleName = "ImageMaker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/SA/Documents/Data/Product/ImageMaker/ImageMaker/ImageMaker/Classes/Controllers/RenderImageViewController/RenderImageViewController.swift"
+                  timestampString = "497422000.654914"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "216">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
