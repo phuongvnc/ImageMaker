@@ -17,6 +17,15 @@ class ViewController: NSViewController {
     @IBOutlet private weak var heightTextField:NSTextField!
     @IBOutlet private weak var appIconLabel: NSTextField!
     @IBOutlet private weak var iMessageLabel: NSTextField!
+    var scale: Int {
+        get {
+            let scale = Int((NSScreen.main()!.backingScaleFactor))
+            guard scale != nil else {
+                return 1
+            }
+            return scale
+        }
+    }// Check scale of screen
     private var hasNewOutputFolder = false
     fileprivate var hasImage = false {
         didSet {
@@ -162,7 +171,7 @@ class ViewController: NSViewController {
 
         var count = 0
         for (index,name) in names.enumerated() {
-            let resizeImage = photoImageView.image?.resize(size:CGSize(width:size[index], height: size[index]))
+            let resizeImage = photoImageView.image?.resize(size:CGSize(width:size[index] / scale, height: size[index] / scale))
             let imagePath = "\(directionOutputString)/\(name)"
             count += resizeImage!.save(path: imagePath) ? 1 : 0
         }
@@ -211,7 +220,7 @@ class ViewController: NSViewController {
         var count = 0
         for (index,name) in names.enumerated() {
             if size[index].width == size[index].height {
-                let resizeImage = iMessageImageView.image?.resize(size:CGSize(width:size[index].width, height: size[index].height))
+                let resizeImage = iMessageImageView.image?.resize(size:CGSize(width:size[index].width / scale, height: size[index].height / scale))
                 let imagePath = "\(directionOutputString)/\(name)"
                 count += resizeImage!.save(path: imagePath) ? 1 : 0
             } else {
@@ -224,6 +233,51 @@ class ViewController: NSViewController {
 
 
 
+
+        if count == names.count {
+            showAlertWithMessage(message: "Icon create success!")
+        } else {
+            showAlertWithMessage(message: "Icon create fail!")
+        }
+
+    }
+
+    @IBAction private func didSelectAppIconMacOS(sender:NSButton) {
+        let names = ["mac_16x16_1x.png",
+                     "mac_16x16_2x.png",
+                     "mac_32x32_1x.png",
+                     "mac_32x32_2x.png",
+                     "mac_128x128_1x.png",
+                     "mac_128x128_2x.png",
+                     "mac_256x256_1x.png",
+                     "mac_256x256_2x.png",
+                     "mac_512x512_1x.png",
+                     "mac_512x512_2x.png"]
+
+        let size:[Int] = [16,32,32,64,128,256,256,512,512,1024]
+
+        if !hasImage {
+            showAlertWithMessage(message: "Please selecte image!")
+            return
+        }
+
+        if !hasNewOutputFolder {
+            if !FileManager.default.fileExists(atPath: directionOutputString) {
+                do {
+                    try  FileManager.default.createDirectory(atPath: directionOutputString, withIntermediateDirectories: false, attributes: nil)
+                } catch _ {
+                    showAlertWithMessage(message: "App can't create output folder")
+                }
+
+            }
+        }
+
+        var count = 0
+        for (index,name) in names.enumerated() {
+            let resizeImage = photoImageView.image?.resize(size:CGSize(width:size[index] / scale, height: size[index] / scale))
+            let imagePath = "\(directionOutputString)/\(name)"
+            count += resizeImage!.save(path: imagePath) ? 1 : 0
+        }
 
         if count == names.count {
             showAlertWithMessage(message: "Icon create success!")

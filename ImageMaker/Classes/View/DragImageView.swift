@@ -94,7 +94,7 @@ class DragImageView: NSImageView {
     func checkSize(drag: NSDraggingInfo) -> Bool {
         if let board = drag.draggingPasteboard().propertyList(forType: "NSFilenamesPboardType") as? NSArray,
             let path = board[0] as? String {
-            if let image = NSImage(contentsOfFile: path), image.size.width == size.width && image.size.height == size.height {
+            if let image = NSImage(contentsOfFile: path), image.size.width <= size.width && image.size.height <= size.height {
                 return true
             } else {
                 return false
