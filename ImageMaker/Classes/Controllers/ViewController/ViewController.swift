@@ -17,12 +17,9 @@ class ViewController: NSViewController {
     @IBOutlet private weak var heightTextField:NSTextField!
     @IBOutlet private weak var appIconLabel: NSTextField!
     @IBOutlet private weak var iMessageLabel: NSTextField!
-    var scale: Int {
+    var scale: CGFloat {
         get {
-            let scale = Int((NSScreen.main()!.backingScaleFactor))
-            guard scale != nil else {
-                return 1
-            }
+            let scale = NSScreen.main()!.backingScaleFactor
             return scale
         }
     }// Check scale of screen
@@ -119,7 +116,7 @@ class ViewController: NSViewController {
                      "watch_38_quickLook_86x86_2x.png",
                      "watch_42_quickLook_98x98_2x.png"]
 
-        let size = [29,
+        let size: [CGFloat] = [29,
                     58,
                     87,
                     40,
@@ -198,7 +195,7 @@ class ViewController: NSViewController {
                      "messages_32x24_3x.png",
                      "messages_appstore_1024x768_1x.png"]
 
-        let size:[(width:Int,height:Int)] = [(58,58),(87,87),(120,90),(180,135),(58,58),(134,100),(148,110),(54,40),(81,60),(64,48),(96,72),(1024,768)]
+        let size:[(width:CGFloat,height:CGFloat)] = [(58,58),(87,87),(120,90),(180,135),(58,58),(134,100),(148,110),(54,40),(81,60),(64,48),(96,72),(1024,768)]
 
 
         if !hasiMessageImage {
@@ -224,7 +221,7 @@ class ViewController: NSViewController {
                 let imagePath = "\(directionOutputString)/\(name)"
                 count += resizeImage!.save(path: imagePath) ? 1 : 0
             } else {
-                let resizeImage = iMessageImageView.image?.resize(size:CGSize(width:size[index].width, height: size[index].height))
+                let resizeImage = iMessageImageView.image?.resize(size:CGSize(width:size[index].width / scale, height: size[index].height / scale))
                 let imagePath = "\(directionOutputString)/\(name)"
                 count += resizeImage!.save(path: imagePath) ? 1 : 0
             }
@@ -254,7 +251,7 @@ class ViewController: NSViewController {
                      "mac_512x512_1x.png",
                      "mac_512x512_2x.png"]
 
-        let size:[Int] = [16,32,32,64,128,256,256,512,512,1024]
+        let size:[CGFloat] = [16,32,32,64,128,256,256,512,512,1024]
 
         if !hasImage {
             showAlertWithMessage(message: "Please selecte image!")

@@ -18,7 +18,7 @@ private enum ScaleType:String {
 class IntegerFormatter: NumberFormatter {
 
     override func isPartialStringValid(_ partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>?, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
-
+        
         // Allow blank value
         if partialString.numberOfCharacters() == 0  {
             return true
@@ -65,6 +65,7 @@ class RenderImageViewController: NSViewController {
             case .all:
                 widthTextField.isEnabled = true
                 heightTextField.isEnabled = true
+
                 widthTextField.becomeFirstResponder()
             case .width:
                 widthTextField.isEnabled = true
@@ -80,7 +81,14 @@ class RenderImageViewController: NSViewController {
             }
         }
     }
-    
+
+    var scale: CGFloat {
+        get {
+            let scale = NSScreen.main()!.backingScaleFactor
+            return scale
+        }
+    }// Check scale of screen
+
     private var isOutput = false
     private var isInput = false
     private var outputString = ""
@@ -149,47 +157,66 @@ class RenderImageViewController: NSViewController {
 
     @IBAction private func didSelecteGenerate(sender:NSButton) {
         if isInput && isOutput {
-            if let width = Float(widthTextField.stringValue),let height = Float(heightTextField.stringValue), let scaleType = fixPopUp.selectedItem {
-                if width <= 1024 || height <= 1024 {
-                    for file in files {
-
-                        file.status = Status.Inprogress
-                        fileTableView.reloadData()
-
-                        var tempWidth = CGFloat(width)
-                        var tempHeight = CGFloat(height)
-                        do {
-                            let data = try Data(contentsOf: URL(fileURLWithPath: file.url))
-                            let image = NSImage(data: data)
-                            if scaleType.title == ScaleType.width.rawValue {
-                                tempHeight = (image!.size.height * tempWidth)/image!.size.width
-                            } else if scaleType.title == ScaleType.height.rawValue {
-                                tempWidth = (image!.size.width * tempHeight)/image!.size.height
-                            }
-
-                            if tempWidth > 0 && tempHeight > 0 {
-                                let resizeImage = image?.resize(size: CGSize(width:tempWidth,height:tempHeight))
-                                let path = "\(self.outputString)/\(file.name)"
-                                file.status =  resizeImage!.save(path: path) ? Status.Finish : Status.Error
-                                OperationQueue.main.addOperation({
-                                    self.fileTableView.reloadData()
-                                })
-                            }
-
-                            self.checkFinishAllFile()
-                        } catch {
-
-                        }
-                    }
-                } else {
-                    showAlertWithMessage(message: "Width or Height greater 1024!",completion: nil)
+            switch scaleType {
+            case .all:
+                if let width = Float(widthTextField.stringValue),let height = Float(heightTextField.stringValue){
+                    generateImage(width: width,height: height)
+                    return
                 }
-            } else {
-                showAlertWithMessage(message: "Width or Height is blank!",completion: nil)
+            case .width:
+                if let width = Float(widthTextField.stringValue) {
+                    generateImage(width: width)
+                    return
+                }
+
+            case .height:
+                if let height = Float(heightTextField.stringValue){
+                    generateImage(height: height)
+                    return
+                }
             }
+            showAlertWithMessage(message: "Width or Height is blank!",completion: nil)
         } else {
             showAlertWithMessage(message: "Input Direction or Output Direction is blank!",completion: nil)
         }
+    }
+
+    private func generateImage(width: Float = 0, height: Float = 0) {
+        if width <= 1024 || height <= 1024 {
+            for file in files {
+
+                file.status = Status.Inprogress
+                fileTableView.reloadData()
+
+                var tempWidth = CGFloat(width)
+                var tempHeight = CGFloat(height)
+                do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: file.url))
+                    let image = NSImage(data: data)
+                    if scaleType == ScaleType.width {
+                        tempHeight = (image!.size.height * tempWidth)/image!.size.width
+                    } else if scaleType == ScaleType.height {
+                        tempWidth = (image!.size.width * tempHeight)/image!.size.height
+                    }
+
+                    if tempWidth > 0 && tempHeight > 0 {
+                        let resizeImage = image?.resize(size: CGSize(width:tempWidth / scale,height:tempHeight / scale))
+                        let path = "\(self.outputString)/\(file.name)"
+                        file.status =  resizeImage!.save(path: path) ? Status.Finish : Status.Error
+                        OperationQueue.main.addOperation({
+                            self.fileTableView.reloadData()
+                        })
+                    }
+
+                    self.checkFinishAllFile()
+                } catch {
+
+                }
+            }
+        } else {
+            showAlertWithMessage(message: "Width or Height greater 1024!",completion: nil)
+        }
+
     }
 
     private func checkFinishAllFile() {
